@@ -1,0 +1,18 @@
+{
+  "id": "post_processing",
+  "version": "1.0",
+  "specVersion": "0.8",
+  "name": "Post processing",
+  "description": "Post processing",
+  "start": "Start",
+  "states": [
+    {
+      "name": "Start",
+      "type": "inject",
+      "data": {
+        "postProcessingData": "Data was post processed"
+      },
+      "end": true
+    }
+  ]
+}

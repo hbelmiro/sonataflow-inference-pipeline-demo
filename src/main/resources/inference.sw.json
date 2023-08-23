@@ -1,0 +1,38 @@
+{
+  "id": "inference",
+  "version": "1.0",
+  "specVersion": "0.8",
+  "name": "Inference Pipeline",
+  "description": "Inference Pipeline with SonataFlow",
+  "start": "Inference pre-processing",
+  "states": [
+    {
+      "name": "Inference pre-processing",
+      "type": "operation",
+      "actions": [
+        {
+          "subFlowRef": "pre_processing"
+        }
+      ],
+      "transition": "Model server"
+    },
+    {
+      "name": "Model server",
+      "type": "inject",
+      "data": {
+        "modelServerData": "modelServer data"
+      },
+      "transition": "Inject Mantra"
+    },
+    {
+      "name": "Inject Mantra",
+      "type": "operation",
+      "actions": [
+        {
+          "subFlowRef": "post_processing"
+        }
+      ],
+      "end": true
+    }
+  ]
+}
