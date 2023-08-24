@@ -5,9 +5,34 @@
   "name": "Pre processing",
   "description": "Pre processing",
   "start": "Start",
+  "functions": [
+    {
+      "name": "python",
+      "type": "custom",
+      "operation": "script:python"
+    }
+  ],
   "states": [
     {
       "name": "Start",
+      "type": "operation",
+      "actions": [
+        {
+          "functionRef": {
+            "refName": "python",
+            "arguments": {
+              "script": "import datetime\ntoday = datetime.datetime.now().day"
+            }
+          }
+        }
+      ],
+      "stateDataFilter" : {
+        "output" : "{today:$WORKFLOW.python.today}"
+      },
+      "transition": "Pre Processing Data"
+    },
+    {
+      "name": "Pre Processing Data",
       "type": "inject",
       "data": {
         "preProcessingData": "Data was pre processed"
