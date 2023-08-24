@@ -17,6 +17,7 @@
         <skipITs>true</skipITs>
         <surefire-plugin.version>3.1.2</surefire-plugin.version>
         <io.rest-assured.version>5.3.1</io.rest-assured.version>
+        <org.codehaus.mojo.maven-exec-plugin.version>1.6.0</org.codehaus.mojo.maven-exec-plugin.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -46,6 +47,10 @@
         <dependency>
             <groupId>org.kie.kogito</groupId>
             <artifactId>kogito-quarkus-serverless-workflow</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.kie.kogito</groupId>
+            <artifactId>kogito-addons-quarkus-serverless-workflow-python</artifactId>
         </dependency>
         <dependency>
             <groupId>io.quarkus</groupId>
@@ -122,6 +127,42 @@
                                 <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
                                 <maven.home>${maven.home}</maven.home>
                             </systemPropertyVariables>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>${org.codehaus.mojo.maven-exec-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>dependencies-install</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>pip</executable>
+                            <arguments>
+                                <argument>install</argument>
+                                <argument>-r</argument>
+                                <argument>${project.basedir}/requirements.txt</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>jep</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>pip</executable>
+                            <arguments>
+                                <argument>install</argument>
+                                <argument>jep</argument>
+                            </arguments>
                         </configuration>
                     </execution>
                 </executions>
