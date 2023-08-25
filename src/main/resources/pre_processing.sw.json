@@ -21,13 +21,13 @@
           "functionRef": {
             "refName": "python",
             "arguments": {
-              "script": "import datetime\ntoday = datetime.datetime.now().day"
+              "script": "import sys\nsys.path.append('./python/my_script')\nfrom my_script import today\nday = datetime.datetime.now().day"
             }
           }
         }
       ],
       "stateDataFilter" : {
-        "output" : "{today:$WORKFLOW.python.today}"
+        "output" : "{today:$WORKFLOW.python.day}"
       },
       "transition": "Pre Processing Data"
     },
