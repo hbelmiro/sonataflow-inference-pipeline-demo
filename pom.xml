@@ -17,7 +17,7 @@
         <skipITs>true</skipITs>
         <surefire-plugin.version>3.1.2</surefire-plugin.version>
         <io.rest-assured.version>5.3.1</io.rest-assured.version>
-        <org.codehaus.mojo.maven-exec-plugin.version>1.6.0</org.codehaus.mojo.maven-exec-plugin.version>
+        <org.codehaus.mojo.maven-exec-plugin.version>3.1.0</org.codehaus.mojo.maven-exec-plugin.version>
     </properties>
     <dependencyManagement>
         <dependencies>
