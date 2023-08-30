@@ -21,7 +21,7 @@
           "functionRef": {
             "refName": "python",
             "arguments": {
-              "script": "import sys\nsys.path.append('./python/my_script')\nfrom my_script import today\nday = datetime.datetime.now().day"
+              "script": "import sys\nsys.path.append('./python')\nfrom my_script import today\nday = today()"
             }
           }
         }

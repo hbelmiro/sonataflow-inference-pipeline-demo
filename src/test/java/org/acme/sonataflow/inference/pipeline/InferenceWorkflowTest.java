@@ -10,7 +10,7 @@ import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.is;
 
 @QuarkusTest
-class InferenceWorkflowIT {
+class InferenceWorkflowTest {
 
     @Test
     void test() {
