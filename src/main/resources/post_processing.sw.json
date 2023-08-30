@@ -5,12 +5,37 @@
   "name": "Post processing",
   "description": "Post processing",
   "start": "Start",
+  "functions": [
+    {
+      "name": "python",
+      "type": "custom",
+      "operation": "script:python"
+    }
+  ],
   "states": [
     {
       "name": "Start",
       "type": "inject",
       "data": {
         "postProcessingData": "Data was post processed"
+      },
+      "transition": "Image overlay"
+    },
+    {
+      "name": "Image overlay",
+      "type": "operation",
+      "actions": [
+        {
+          "functionRef": {
+            "refName": "python",
+            "arguments": {
+              "script": "import sys\nsys.path.append('./python')\nfrom image_overlay import overlay_images\nfile_name = overlay_images('./test_image.jpg', './test_image_house.jpg', (200, 100))"
+            }
+          }
+        }
+      ],
+      "stateDataFilter": {
+        "output": "{overlayed_image:$WORKFLOW.python.file_name, postProcessingData:.postProcessingData}"
       },
       "end": true
     }
