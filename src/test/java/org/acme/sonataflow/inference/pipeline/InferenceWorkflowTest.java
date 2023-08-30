@@ -26,7 +26,7 @@ class InferenceWorkflowTest {
                 .then()
                 .statusCode(201)
                 .body("workflowdata.preProcessingData", is("Data was pre processed"))
-                .body("workflowdata.modelServerData", is("modelServer data"))
+                .body("workflowdata.model_server_data.segmented_image", is("test_image_house.jpg"))
                 .body("workflowdata.postProcessingData", is("Data was post processed"))
                 .body("workflowdata.today", is(LocalDate.now().getDayOfMonth()))
                 .body("workflowdata.overlaid_image", is("overlaid_image.jpg"));
