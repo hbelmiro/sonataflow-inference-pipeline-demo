@@ -12,7 +12,7 @@ def overlay_images(base_image_path, overlay_image_path, position):
     # Overlay the image over the base image
     base_img.paste(overlay_img, position, overlay_img)
 
-    file_name = 'overlayed_image.jpg'
+    file_name = 'overlaid_image.jpg'
 
     base_img.save(file_name)
 
@@ -27,4 +27,4 @@ def overlay_images(base_image_path, overlay_image_path, position):
 # result_image = overlay_images(base_image_path, overlay_image_path, position)
 #
 # # Save the resulting image
-# result_image.save('overlayed_image.jpg')
+# result_image.save('overlaid_image.jpg')

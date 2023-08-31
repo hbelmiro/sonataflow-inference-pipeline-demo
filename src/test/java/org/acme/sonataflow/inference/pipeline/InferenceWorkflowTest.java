@@ -4,6 +4,9 @@ import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.http.ContentType;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 
@@ -15,7 +18,7 @@ import static org.hamcrest.Matchers.is;
 class InferenceWorkflowTest {
 
     @Test
-    void test() {
+    void test() throws IOException {
         given()
                 .contentType(ContentType.JSON)
                 .accept(ContentType.JSON)
@@ -26,8 +29,13 @@ class InferenceWorkflowTest {
                 .body("workflowdata.modelServerData", is("modelServer data"))
                 .body("workflowdata.postProcessingData", is("Data was post processed"))
                 .body("workflowdata.today", is(LocalDate.now().getDayOfMonth()))
-                .body("workflowdata.overlayed_image", is("overlayed_image.jpg"));
+                .body("workflowdata.overlaid_image", is("overlaid_image.jpg"));
 
-        assertThat(Paths.get("overlayed_image.jpg")).exists();
+        Path overlaidImage = Paths.get("overlaid_image.jpg");
+        try {
+            assertThat(overlaidImage).exists();
+        } finally {
+            Files.delete(overlaidImage);
+        }
     }
 }

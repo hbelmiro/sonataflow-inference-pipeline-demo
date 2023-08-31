@@ -35,7 +35,7 @@
         }
       ],
       "stateDataFilter": {
-        "output": "{overlayed_image:$WORKFLOW.python.file_name, postProcessingData:.postProcessingData}"
+        "output": "{overlaid_image:$WORKFLOW.python.file_name, postProcessingData:.postProcessingData}"
       },
       "end": true
     }
