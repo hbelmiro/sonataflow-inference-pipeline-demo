@@ -4,8 +4,16 @@
   "specVersion": "0.8",
   "name": "Inference Pipeline",
   "description": "Inference Pipeline with SonataFlow",
-  "start": "Inference pre-processing",
+  "start": "Start",
   "states": [
+    {
+      "name": "Start",
+      "type": "inject",
+      "data": {
+        "image": "test_image.jpg"
+      },
+      "transition": "Inference pre-processing"
+    },
     {
       "name": "Inference pre-processing",
       "type": "operation",
@@ -20,7 +28,9 @@
       "name": "Model server",
       "type": "inject",
       "data": {
-        "modelServerData": "modelServer data"
+        "model_server_data": {
+          "segmented_image": "test_image_house.jpg"
+        }
       },
       "transition": "Inference post-processing"
     },
