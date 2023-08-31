@@ -22,10 +22,10 @@
       "data": {
         "modelServerData": "modelServer data"
       },
-      "transition": "Inject Mantra"
+      "transition": "Inference post-processing"
     },
     {
-      "name": "Inject Mantra",
+      "name": "Inference post-processing",
       "type": "operation",
       "actions": [
         {
