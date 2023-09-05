@@ -24,12 +24,18 @@ class InferenceWorkflowTest {
                 .when().post("/inference")
                 .then()
                 .statusCode(201)
-                .body("workflowdata.preProcessingData", is("Data was pre processed"))
                 .body("workflowdata.image", is("coco_image.jpg"))
-                .body("workflowdata.kserve_payload", is("coco_image.json"))
+                .body("workflowdata.kserve_response", is("kserve_response.json"))
                 .body("workflowdata.model_server_data.segmented_image", is("test_image_house.jpg"))
                 .body("workflowdata.postProcessingData", is("Data was post processed"))
                 .body("workflowdata.overlaid_image", is("overlaid_image.jpg"));
+
+        Path kserveResponsePayload = Paths.get("kserve_response.json");
+        try {
+            assertThat(kserveResponsePayload).exists();
+        } finally {
+            Files.delete(kserveResponsePayload);
+        }
 
         Path kserveRequestPayload = Paths.get("coco_image.json");
         try {

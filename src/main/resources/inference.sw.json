@@ -5,12 +5,20 @@
   "name": "Inference Pipeline",
   "description": "Inference Pipeline with SonataFlow",
   "start": "Start",
+  "functions": [
+    {
+      "name": "python",
+      "type": "custom",
+      "operation": "script:python"
+    }
+  ],
   "states": [
     {
       "name": "Start",
       "type": "inject",
       "data": {
-        "image": "coco_image.jpg"
+        "image": "coco_image.jpg",
+        "url": "https://yolo-model-opendatahub-model.apps.trustyai.dzzt.p1.openshiftapps.com/v2/models/yolo-model/infer"
       },
       "transition": "Inference pre-processing"
     },
@@ -22,10 +30,30 @@
           "subFlowRef": "pre_processing"
         }
       ],
-      "transition": "Model server"
+      "transition": "Inference"
     },
     {
-      "name": "Model server",
+      "name": "Inference",
+      "type": "operation",
+      "actions": [
+        {
+          "functionRef": {
+            "refName": "python",
+            "arguments": {
+              "script": "import sys\nsys.path.append('./python')\nfrom kserve_client import send_request_with_payload\nkserve_response = send_request_with_payload(url, payload_file, './')",
+              "url" : ".url",
+              "payload_file": ".kserve_payload"
+            }
+          }
+        }
+      ],
+      "stateDataFilter" : {
+        "output" : "{kserve_response:$WORKFLOW.python.kserve_response, image:.image}"
+      },
+      "transition": "Convert KServe response"
+    },
+    {
+      "name": "Convert KServe response",
       "type": "inject",
       "data": {
         "model_server_data": {
