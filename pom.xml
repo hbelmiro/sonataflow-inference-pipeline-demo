@@ -14,7 +14,9 @@
         <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
         <quarkus.platform.group-id>io.quarkus.platform</quarkus.platform.group-id>
         <quarkus.platform.version>2.16.10.Final</quarkus.platform.version>
-        <skipITs>true</skipITs>
+        <kogito.bom.group-id>org.kie.kogito</kogito.bom.group-id>
+        <kogito.bom.artifact-id>kogito-bom</kogito.bom.artifact-id>
+        <kogito.bom.version>1.43.0.Final</kogito.bom.version>
         <surefire-plugin.version>3.1.2</surefire-plugin.version>
         <io.rest-assured.version>5.3.1</io.rest-assured.version>
         <org.codehaus.mojo.maven-exec-plugin.version>3.1.0</org.codehaus.mojo.maven-exec-plugin.version>
@@ -30,9 +32,9 @@
                 <scope>import</scope>
             </dependency>
             <dependency>
-                <groupId>${quarkus.platform.group-id}</groupId>
-                <artifactId>quarkus-kogito-bom</artifactId>
-                <version>${quarkus.platform.version}</version>
+                <groupId>${kogito.bom.group-id}</groupId>
+                <artifactId>${kogito.bom.artifact-id}</artifactId>
+                <version>${kogito.bom.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
