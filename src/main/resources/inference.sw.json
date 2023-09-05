@@ -10,7 +10,7 @@
       "name": "Start",
       "type": "inject",
       "data": {
-        "image": "test_image.jpg"
+        "image": "coco_image.jpg"
       },
       "transition": "Inference pre-processing"
     },
