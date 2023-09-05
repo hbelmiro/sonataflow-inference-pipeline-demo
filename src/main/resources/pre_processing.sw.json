@@ -30,14 +30,6 @@
       "stateDataFilter" : {
         "output" : "{kserve_payload:$WORKFLOW.python.kserve_payload}"
       },
-      "transition": "Pre Processing Data"
-    },
-    {
-      "name": "Pre Processing Data",
-      "type": "inject",
-      "data": {
-        "preProcessingData": "Data was pre processed"
-      },
       "end": true
     }
   ]
