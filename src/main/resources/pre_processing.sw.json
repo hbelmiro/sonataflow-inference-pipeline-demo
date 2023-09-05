@@ -4,7 +4,7 @@
   "specVersion": "0.8",
   "name": "Pre processing",
   "description": "Pre processing",
-  "start": "Start",
+  "start": "Create KServe payload",
   "functions": [
     {
       "name": "python",
@@ -14,20 +14,21 @@
   ],
   "states": [
     {
-      "name": "Start",
+      "name": "Create KServe payload",
       "type": "operation",
       "actions": [
         {
           "functionRef": {
             "refName": "python",
             "arguments": {
-              "script": "import sys\nsys.path.append('./python')\nfrom my_script import today\nday = today()"
+              "script": "import sys\nsys.path.append('./python')\nfrom coco_to_kserve import to_kserve\nkserve_payload = to_kserve(image, './')",
+              "image" : ".image"
             }
           }
         }
       ],
       "stateDataFilter" : {
-        "output" : "{today:$WORKFLOW.python.day}"
+        "output" : "{kserve_payload:$WORKFLOW.python.kserve_payload}"
       },
       "transition": "Pre Processing Data"
     },
