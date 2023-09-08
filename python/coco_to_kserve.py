@@ -29,8 +29,11 @@ def to_kserve(image_path, output_path):
     arr = np.transpose(np.array(im), (2, 0, 1))
     arr = np.expand_dims(arr, axis=0)
 
+    # Normalize the image
+    normalized_image_array = (arr / 255.0)
+
     # Write to json
-    row = {"name": "images", "shape": arr.shape, "datatype": "FP32", "data": arr.tolist()}
+    row = {"name": "images", "shape": arr.shape, "datatype": "FP32", "data": normalized_image_array.tolist()}
     datajson = {"inputs": [row]}
 
     # Create the output filename
