@@ -18,7 +18,7 @@
         <kogito.bom.artifact-id>kogito-bom</kogito.bom.artifact-id>
         <kogito.bom.version>1.44.1.Final</kogito.bom.version>
         <surefire-plugin.version>3.1.2</surefire-plugin.version>
-        <io.rest-assured.version>5.3.1</io.rest-assured.version>
+        <io.rest-assured.version>5.3.2</io.rest-assured.version>
         <org.codehaus.mojo.maven-exec-plugin.version>3.1.0</org.codehaus.mojo.maven-exec-plugin.version>
         <org.assertj.version>3.24.2</org.assertj.version>
     </properties>
