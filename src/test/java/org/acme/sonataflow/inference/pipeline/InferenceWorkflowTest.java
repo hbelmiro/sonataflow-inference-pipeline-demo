@@ -1,6 +1,8 @@
 package org.acme.sonataflow.inference.pipeline;
 
 import io.quarkus.test.junit.QuarkusTest;
+import io.restassured.config.HttpClientConfig;
+import io.restassured.config.RestAssuredConfig;
 import io.restassured.http.ContentType;
 import org.junit.jupiter.api.Test;
 
@@ -16,39 +18,30 @@ import static org.hamcrest.Matchers.is;
 @QuarkusTest
 class InferenceWorkflowTest {
 
+    private static final int REQUEST_TIMEOUT = 60_000;
+
     @Test
     void test() throws IOException {
-        given()
+        given().config(configRequest())
                 .contentType(ContentType.JSON)
                 .accept(ContentType.JSON)
                 .when().post("/inference")
                 .then()
                 .statusCode(201)
-                .body("workflowdata.image", is("coco_image.jpg"))
-                .body("workflowdata.kserve_response", is("kserve_response.json"))
-                .body("workflowdata.model_server_data.segmented_image", is("test_image_house.jpg"))
-                .body("workflowdata.postProcessingData", is("Data was post processed"))
-                .body("workflowdata.overlaid_image", is("overlaid_image.jpg"));
+                .body("workflowdata.output_image", is("./output_image.jpg"));
 
-        Path kserveResponsePayload = Paths.get("kserve_response.json");
-        try {
-            assertThat(kserveResponsePayload).exists();
-        } finally {
-            Files.delete(kserveResponsePayload);
-        }
-
-        Path kserveRequestPayload = Paths.get("coco_image.json");
-        try {
-            assertThat(kserveRequestPayload).exists();
-        } finally {
-            Files.delete(kserveRequestPayload);
-        }
-
-        Path overlaidImage = Paths.get("overlaid_image.jpg");
+        Path overlaidImage = Paths.get("output_image.jpg");
         try {
             assertThat(overlaidImage).exists();
         } finally {
             Files.delete(overlaidImage);
         }
+    }
+
+    private static RestAssuredConfig configRequest() {
+        return RestAssuredConfig.config()
+                .httpClient(HttpClientConfig.httpClientConfig()
+                        .setParam("http.socket.timeout", REQUEST_TIMEOUT)
+                        .setParam("http.connection.timeout", REQUEST_TIMEOUT));
     }
 }

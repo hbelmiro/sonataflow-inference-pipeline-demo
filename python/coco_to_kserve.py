@@ -45,4 +45,3 @@ def to_kserve(image_path, output_path):
         json.dump(datajson, outfile)
 
     return outname
-

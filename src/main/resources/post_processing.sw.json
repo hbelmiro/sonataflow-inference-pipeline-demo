@@ -4,7 +4,7 @@
   "specVersion": "0.8",
   "name": "Post processing",
   "description": "Post processing",
-  "start": "Start",
+  "start": "Handle KServe response",
   "functions": [
     {
       "name": "python",
@@ -14,30 +14,23 @@
   ],
   "states": [
     {
-      "name": "Start",
-      "type": "inject",
-      "data": {
-        "postProcessingData": "Data was post processed"
-      },
-      "transition": "Image overlay"
-    },
-    {
-      "name": "Image overlay",
+      "name": "Handle KServe response",
       "type": "operation",
       "actions": [
         {
           "functionRef": {
             "refName": "python",
             "arguments": {
-              "script": "import sys\nsys.path.append('./python')\nfrom image_overlay import overlay_images\nfile_name = overlay_images(image, segmented_image, (200, 100))",
+              "script": "import sys\nsys.path.append('./python')\nfrom response_handler import handle_response\noutput_image = handle_response(image, kserve_response, output_image)",
               "image" : ".image",
-              "segmented_image": ".model_server_data.segmented_image"
+              "kserve_response": ".kserve_response",
+              "output_image": "./output_image.jpg"
             }
           }
         }
       ],
       "stateDataFilter": {
-        "output": "{overlaid_image:$WORKFLOW.python.file_name, postProcessingData:.postProcessingData}"
+        "output": "{output_image:$WORKFLOW.python.output_image}"
       },
       "end": true
     }
