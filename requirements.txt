@@ -3,3 +3,5 @@ numpy
 requests
 opencv-python
 matplotlib
+torch
+ultralytics
