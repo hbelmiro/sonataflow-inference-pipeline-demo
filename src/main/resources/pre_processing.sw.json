@@ -21,7 +21,7 @@
           "functionRef": {
             "refName": "python",
             "arguments": {
-              "script": "import sys\nsys.path.append('./python')\nfrom coco_to_kserve import to_kserve\nkserve_payload = to_kserve(image, './')",
+              "script": "import sys\nsys.path.append('./python')\nfrom coco_to_kserve import to_kserve\nkserve_payload = to_kserve(image)",
               "image" : ".image"
             }
           }

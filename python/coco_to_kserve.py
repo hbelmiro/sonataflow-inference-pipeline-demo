@@ -18,7 +18,7 @@ def expand2square(pil_img, background_color):
         return result
 
 
-def to_kserve(image_path, output_path):
+def to_kserve(image_path):
     # Load image
     im = Image.open(image_path)
 
@@ -34,14 +34,6 @@ def to_kserve(image_path, output_path):
 
     # Write to json
     row = {"name": "images", "shape": arr.shape, "datatype": "FP32", "data": normalized_image_array.tolist()}
-    datajson = {"inputs": [row]}
+    json_string = json.dumps({"inputs": [row]})
 
-    # Create the output filename
-    file_name = os.path.basename(image_path)
-    outname = os.path.splitext(file_name)[0] + ".json"
-    output_file_path = os.path.join(output_path, outname)
-
-    with open(output_file_path, "w") as outfile:
-        json.dump(datajson, outfile)
-
-    return outname
+    return json.loads(json_string)

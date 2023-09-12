@@ -1,6 +1,5 @@
 Pillow
 numpy
-requests
 opencv-python
 matplotlib
 torch

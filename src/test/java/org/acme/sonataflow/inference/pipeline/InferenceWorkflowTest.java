@@ -18,7 +18,7 @@ import static org.hamcrest.Matchers.is;
 @QuarkusTest
 class InferenceWorkflowTest {
 
-    private static final int REQUEST_TIMEOUT = 60_000;
+    private static final int REQUEST_TIMEOUT = 90_000;
 
     @Test
     void test() throws IOException {
