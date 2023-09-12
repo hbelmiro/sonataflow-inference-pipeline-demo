@@ -1,0 +1,43 @@
+openapi: 3.0.0
+info:
+  title: Send Request with Payload API
+  version: 1.0.0
+paths:
+  /infer:
+    post:
+      operationId: infer
+      summary: Send a POST request with a payload
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                inputs:
+                  type: object
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string

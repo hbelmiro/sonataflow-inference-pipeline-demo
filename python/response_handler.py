@@ -217,14 +217,9 @@ def handle_response(original_img_path, kserve_response, img_destination):
 
     torch_im = torch.tensor(get_as_numpy(im))
 
-    # Process response to PyTorch tensors
-    # Load the response from the JSON file
-    with open(kserve_response, 'r') as json_file:
-        response = json.load(json_file)
-
-    pred_dict, proto_dict = response["outputs"]
-    pred = torch.tensor(pred_dict['data']).reshape(pred_dict['shape'])
-    proto = torch.tensor(proto_dict['data']).reshape(proto_dict['shape'])
+    pred_dict, proto_dict = kserve_response
+    pred = torch.tensor(pred_dict['data']).reshape(tuple(pred_dict['shape']))
+    proto = torch.tensor(proto_dict['data']).reshape(tuple(proto_dict['shape']))
 
     # Set up mask generator
     args = {"conf": .25, "iou": .45, "agnostic_nms": False, "max_det": 1000}
