@@ -1,5 +1,4 @@
 import collections
-import json
 
 import cv2
 import matplotlib.pyplot as plt
