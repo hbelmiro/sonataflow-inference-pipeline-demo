@@ -4,7 +4,7 @@
   "specVersion": "0.8",
   "name": "Inference Pipeline",
   "description": "Inference Pipeline with SonataFlow",
-  "start": "Inference pre-processing",
+  "start": "Imports",
   "functions": [
     {
       "name": "python",
@@ -17,6 +17,21 @@
     }
   ],
   "states": [
+    {
+      "name": "Imports",
+      "type": "operation",
+      "actions": [
+        {
+          "functionRef": {
+            "refName": "python",
+            "arguments": {
+              "script": "import sys\nsys.path.append('./python')\nfrom coco_to_kserve import to_kserve\nfrom response_handler import handle_response"
+            }
+          }
+        }
+      ],
+      "transition": "Inference pre-processing"
+    },
     {
       "name": "Inference pre-processing",
       "type": "operation",
