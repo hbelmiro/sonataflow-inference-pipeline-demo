@@ -62,6 +62,9 @@
           "subFlowRef": "post_processing"
         }
       ],
+      "stateDataFilter": {
+        "output": "{output_image: .output_image}"
+      },
       "end": true
     }
   ]
