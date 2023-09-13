@@ -21,7 +21,7 @@
           "functionRef": {
             "refName": "python",
             "arguments": {
-              "script": "import sys\nsys.path.append('./python')\nfrom response_handler import handle_response\noutput_image = handle_response(image, kserve_response, output_image)",
+              "script": "output_image = handle_response(image, kserve_response, output_image)",
               "image" : ".image",
               "kserve_response": ".kserve_response",
               "output_image": "./output_image.jpg"
