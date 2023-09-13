@@ -23,7 +23,7 @@ def to_kserve(image_path):
     im = Image.open(image_path)
 
     # Pad to 640x640 square
-    im = expand2square(im, (0, 0, 0))
+    im = expand2square(im, (114, 114, 114))
 
     # Convert to np array of correct shape
     arr = np.transpose(np.array(im), (2, 0, 1))
