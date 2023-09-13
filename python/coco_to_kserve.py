@@ -1,5 +1,3 @@
-import os
-import json
 import numpy as np
 from PIL import Image
 
@@ -34,6 +32,4 @@ def to_kserve(image_path):
 
     # Write to json
     row = {"name": "images", "shape": arr.shape, "datatype": "FP32", "data": normalized_image_array.tolist()}
-    json_string = json.dumps({"inputs": [row]})
-
-    return json.loads(json_string)
+    return {"inputs": [row]}

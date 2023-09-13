@@ -25,10 +25,10 @@
           "subFlowRef": "pre_processing"
         }
       ],
-      "transition": "Inference"
+      "transition": "Infer"
     },
     {
-      "name": "Inference",
+      "name": "Infer",
       "type": "operation",
       "actions": [
         {
