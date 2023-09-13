@@ -4,7 +4,7 @@
   "specVersion": "0.8",
   "name": "Inference Pipeline",
   "description": "Inference Pipeline with SonataFlow",
-  "start": "Start",
+  "start": "Inference pre-processing",
   "functions": [
     {
       "name": "python",
@@ -17,15 +17,6 @@
     }
   ],
   "states": [
-    {
-      "name": "Start",
-      "type": "inject",
-      "data": {
-        "image": "coco_image.jpg",
-        "url": "https://yolo-model-opendatahub-model.apps.trustyai.dzzt.p1.openshiftapps.com/v2/models/yolo-model/infer"
-      },
-      "transition": "Inference pre-processing"
-    },
     {
       "name": "Inference pre-processing",
       "type": "operation",

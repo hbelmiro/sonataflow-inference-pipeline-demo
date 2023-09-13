@@ -1,5 +1,9 @@
 # sonataflow-inference-pipeline-demo
 
+This project aims to experiment with SonataFlow for inference pipelines, where the inference task involves performing image segmentation on individual images from the COCO dataset
+
+If you want to learn more about SonataFlow, please visit its website: https://sonataflow.org/ .
+
 This project uses Quarkus, the Supersonic Subatomic Java Framework.
 
 If you want to learn more about Quarkus, please visit its website: https://quarkus.io/ .
@@ -12,6 +16,26 @@ You can run your application in dev mode that enables live coding using:
 ```
 
 > **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at http://localhost:8080/q/dev/.
+
+## Sending a request
+
+To perform image segmentation in `coco_image.jpg`, run the following request:
+
+```shell
+curl -X 'POST' \
+  'http://localhost:8080/inference' \
+  -H 'accept: */*' \
+  -H 'Content-Type: application/json' \
+  -d '{ "image": "coco_image.jpg" }'
+```
+
+You should see an output similar to:
+
+```shell
+{"id":"591f8305-908b-43d0-85c7-73be87f8f0ca","workflowdata":{"output_image":"./output_image.jpg"}}
+```
+
+`./output_image.jpg` is the result image of the segmentation process.
 
 ## Packaging and running the application
 

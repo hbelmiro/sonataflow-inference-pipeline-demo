@@ -25,17 +25,15 @@ class InferenceWorkflowTest {
         given().config(configRequest())
                 .contentType(ContentType.JSON)
                 .accept(ContentType.JSON)
+                .body("{\"image\" : \"coco_image.jpg\"}").when()
                 .when().post("/inference")
                 .then()
                 .statusCode(201)
                 .body("workflowdata.output_image", is("./output_image.jpg"));
 
         Path overlaidImage = Paths.get("output_image.jpg");
-        try {
-            assertThat(overlaidImage).exists();
-        } finally {
-            Files.delete(overlaidImage);
-        }
+        assertThat(overlaidImage).exists();
+        Files.delete(overlaidImage);
     }
 
     private static RestAssuredConfig configRequest() {
