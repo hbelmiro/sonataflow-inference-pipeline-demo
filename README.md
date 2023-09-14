@@ -1,13 +1,21 @@
 # sonataflow-inference-pipeline-demo
 
-This project aims to experiment with SonataFlow for inference pipelines, where the inference task involves performing image segmentation on individual images from the COCO dataset
+The goal of this project is to create an inference pipeline for image segmentation tasks for images from the COCO Dataset using SonataFlow. This pipeline wraps around a model server and consists of three main components:
+
+1. Inference Pre-processing Pipeline: This is the initial stage of the pipeline where incoming image data is pre-processed before being sent to the model server. Pre-processing may involve tasks such as resizing, data augmentation, or any other necessary transformations.
+2. Model Server: The model server is responsible for loading and executing the image segmentation model. It receives pre-processed data, performs inference, and returns the segmentation results.
+3. Inference Post-processing Pipeline: After receiving the model's output, the post-processing pipeline may apply additional operations to the results, such as filtering, thresholding, or any other necessary post-processing steps.
+
+Once the inference is complete, the results are returned to the calling process. Any request that needs to be pre/post processed is, therefore, sent to the SonataFlow Endpoint, while requests that do not need processing can still use the original inference endpoint.
+
+The below image illustartes the usecase:
+
+![](docs/Architecture.png)
+
+## Interaction with ODH
+It's important to note that SonataFlow and Open Data Hub(ODH) need not be deployed in the same location. As long as your workflow can access the ODH endpoint, you can leverage ODH's capabilities in conjunction with SonataFlow.
 
 If you want to learn more about SonataFlow, please visit its website: https://sonataflow.org/ .
-
-This project uses Quarkus, the Supersonic Subatomic Java Framework.
-
-If you want to learn more about Quarkus, please visit its website: https://quarkus.io/ .
-
 ## Running the application in dev mode
 
 You can run your application in dev mode that enables live coding using:
