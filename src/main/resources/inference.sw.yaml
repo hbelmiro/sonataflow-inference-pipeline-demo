@@ -19,7 +19,7 @@ states:
           arguments:
             script: |
               import sys
-              sys.path.append('./python')
+              sys.path.append('./src/main/resources/python')
               from coco_to_kserve import to_kserve
               from response_handler import handle_response
     transition: Inference pre-processing
