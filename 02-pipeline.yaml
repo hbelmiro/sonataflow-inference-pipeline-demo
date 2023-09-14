@@ -1,0 +1,77 @@
+apiVersion: sonataflow.org/v1alpha08
+kind: SonataFlow
+metadata:
+  name: pipeline
+  annotations:
+    sonataflow.org/description: Inference Pipeline with SonataFlow
+    sonataflow.org/version: "1.0"
+    sonataflow.org/profile: dev
+spec:
+  resources:
+    configMaps:
+      - configMap:
+          name: pipeline-specs
+        workflowPath: specs
+      - configMap:
+          name: pipeline-python
+        workflowPath: python
+      - configMap:
+          name: pipeline-images
+        workflowPath: images
+      - configMap:
+          name: pipeline-frontend
+        workflowPath: META-INF/resources
+  flow:
+    start: Imports
+    functions:
+      - name: python
+        type: custom
+        operation: script:python
+      - name: invoke_kserve
+        operation: classpath:specs/model_openapi.yaml#infer
+    states:
+      - name: Imports
+        type: operation
+        actions:
+          - functionRef:
+              refName: python
+              arguments:
+                script: |
+                  import sys
+                  sys.path.append('./src/main/resources/python')
+                  from coco_to_kserve import to_kserve
+                  from response_handler import handle_response
+        transition: Inference pre-processing
+      - name: Inference pre-processing
+        type: operation
+        actions:
+          - functionRef:
+              refName: python
+              arguments:
+                script: "kserve_payload = to_kserve(base64Image)"
+                base64Image: ".base64Image"
+        stateDataFilter:
+          output: "{kserve_payload:$WORKFLOW.python.kserve_payload, base64Image: .base64Image}"
+        transition: Invoke KServe
+      - name: Invoke KServe
+        type: operation
+        actions:
+          - functionRef:
+              refName: invoke_kserve
+              arguments:
+                inputs: .kserve_payload.inputs
+        stateDataFilter:
+          output: '{kserve_response: .outputs, base64Image: .base64Image}'
+        transition: Inference post-processing
+      - name: Inference post-processing
+        type: operation
+        actions:
+          - functionRef:
+              refName: python
+              arguments:
+                script: "output_image = handle_response(base64Image, kserve_response)"
+                image: ".base64Image"
+                kserve_response: ".kserve_response"
+        stateDataFilter:
+          output: '{output_image: $WORKFLOW.python.output_image}'
+        end: true

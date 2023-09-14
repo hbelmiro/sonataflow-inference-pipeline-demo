@@ -1,0 +1,7 @@
+apiVersion: sonataflow.org/v1alpha08
+kind: SonataFlowPlatform
+metadata:
+  name: sonataflow-platform
+spec:
+  devMode:
+    baseImage: "quay.io/ricardozanini/sonataflow-python-devmode:1.0.0-142325"

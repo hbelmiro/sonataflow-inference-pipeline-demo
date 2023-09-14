@@ -8,7 +8,7 @@ The goal of this project is to create an inference pipeline for image segmentati
 
 Once the inference is complete, the results are returned to the calling process. Any request that needs to be pre/post processed is, therefore, sent to the SonataFlow Endpoint, while requests that do not need processing can still use the original inference endpoint.
 
-The below image illustartes the usecase:
+The below image illustrates the use-case:
 
 ![](docs/Architecture.png)
 
@@ -38,57 +38,47 @@ The final state manages the response received from KServe, which contains segmen
 It's important to note that SonataFlow and Open Data Hub(ODH) need not be deployed in the same location. As long as your workflow can access the ODH endpoint, you can leverage ODH's capabilities in conjunction with SonataFlow.
 
 If you want to learn more about SonataFlow, please visit its website: https://sonataflow.org/ .
-## Running the application in dev mode
 
-You can run your application in dev mode that enables live coding using:
-```shell script
-./mvnw compile quarkus:dev
+## Deploying to OpenShift
+
+### Install the SonataFlow operator
+
+```shell
+kubectl create -f https://raw.githubusercontent.com/apache/incubator-kie-kogito-serverless-operator/main/operator.yaml
 ```
 
-> **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at http://localhost:8080/q/dev/.
+### Switch to your namespace
 
+```shell
+kubectl config set-context --current --namespace=$NAMESPACE
+```
+
+### Deploy the artifacts
+
+```shell
+./deploy.sh
+```
+
+### Check the deployment status
+
+```shell
+kubectl get workflow pipeline
+```
+
+You should see an output like the following when the workflow is ready:
+
+```shell
+NAME       PROFILE   VERSION   URL                                  READY   REASON
+pipeline   dev       1.0       http://192.168.67.2:30012/pipeline   True
+```
 
 ## Sending a request
 
-To perform image segmentation on `src/main/resources/images/coco_image.jpg`, open http://localhost:8080/pipeline in your browser, upload the file, and click the 'Process Image' button.
+To perform image segmentation on `src/main/resources/images/coco_image.jpg`, open http://192.168.67.2:30012 (This is just an example. Run the above command to get the right URL.) in your browser, upload the file, and click the 'Process Image' button.
 
 Processing may take approximately one minute. Afterward, you should see the segmented image displayed as follows:
 
 ![Segmented image](/src/test/resources/output.png "Segmented image")
-
-## Packaging and running the application
-
-The application can be packaged using:
-```shell script
-./mvnw package
-```
-It produces the `quarkus-run.jar` file in the `target/quarkus-app/` directory.
-Be aware that it’s not an _über-jar_ as the dependencies are copied into the `target/quarkus-app/lib/` directory.
-
-The application is now runnable using `java -jar target/quarkus-app/quarkus-run.jar`.
-
-If you want to build an _über-jar_, execute the following command:
-```shell script
-./mvnw package -Dquarkus.package.type=uber-jar
-```
-
-The application, packaged as an _über-jar_, is now runnable using `java -jar target/*-runner.jar`.
-
-## Creating a native executable
-
-You can create a native executable using: 
-```shell script
-./mvnw package -Dnative
-```
-
-Or, if you don't have GraalVM installed, you can run the native executable build in a container using: 
-```shell script
-./mvnw package -Dnative -Dquarkus.native.container-build=true
-```
-
-You can then execute your native executable with: `./target/sonataflow-inference-pipeline-demo-1.0.0-SNAPSHOT-runner`
-
-If you want to learn more about building native executables, please consult https://quarkus.io/guides/maven-tooling.
 
 ## Related Guides
 
