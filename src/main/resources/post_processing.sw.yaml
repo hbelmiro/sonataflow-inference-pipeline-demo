@@ -1,0 +1,24 @@
+id: post_processing
+version: '1.0'
+specVersion: '0.8'
+name: Post processing
+description: Post processing
+start: Handle KServe response
+functions:
+  - name: python
+    type: custom
+    operation: script:python
+states:
+  - name: Handle KServe response
+    type: operation
+    actions:
+      - functionRef:
+          refName: python
+          arguments:
+            script: "output_image = handle_response(image, kserve_response, output_image)"
+            image: ".image"
+            kserve_response: ".kserve_response"
+            output_image: "./output_image.jpg"
+    stateDataFilter:
+      output: "{output_image:$WORKFLOW.python.output_image}"
+    end: true
