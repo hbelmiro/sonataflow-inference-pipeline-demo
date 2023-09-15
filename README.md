@@ -31,7 +31,7 @@ To perform image segmentation in `coco_image.jpg`, run the following request:
 
 ```shell
 curl -X 'POST' \
-  'http://localhost:8080/inference' \
+  'http://localhost:8080/pipeline' \
   -H 'accept: */*' \
   -H 'Content-Type: application/json' \
   -d '{ "image": "coco_image.jpg" }'

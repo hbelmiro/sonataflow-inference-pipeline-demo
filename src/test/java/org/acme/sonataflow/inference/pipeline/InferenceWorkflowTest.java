@@ -26,7 +26,7 @@ class InferenceWorkflowTest {
                 .contentType(ContentType.JSON)
                 .accept(ContentType.JSON)
                 .body("{\"image\" : \"coco_image.jpg\"}").when()
-                .when().post("/inference")
+                .when().post("/pipeline")
                 .then()
                 .statusCode(201)
                 .body("workflowdata.output_image", is("./output_image.jpg"));
