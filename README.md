@@ -14,7 +14,7 @@ The below image illustartes the usecase:
 
 ## Pipeline Overview
 
-The pipeline is defined as a [Serverless Workflow](https://serverlessworkflow.io/) specified in the `pipeline.sw.yaml` file located in `src/main/resources`.
+The pipeline is defined as a [Serverless Workflow](https://serverlessworkflow.io/) specified in [pipeline.sw.yaml](src/main/resources/pipeline.sw.yaml).
 
 It takes an image as input and produces a segmented image as output. The pipeline consists of four main states:
 
