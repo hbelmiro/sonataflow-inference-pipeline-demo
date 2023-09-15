@@ -25,6 +25,29 @@ You can run your application in dev mode that enables live coding using:
 
 > **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at http://localhost:8080/q/dev/.
 
+## Pipeline Overview
+
+The pipeline is defined as a [Serverless Workflow](https://serverlessworkflow.io/) specified in the `pipeline.sw.yaml` file located in `src/main/resources`.
+
+It takes an image as input and produces a segmented image as output. The pipeline consists of four main states:
+
+### 1. Imports
+
+In this initial state, a Python script is executed to import the necessary dependencies and modules for the subsequent states.
+
+### 2. Create KServe Payload
+
+This state invokes a Python function to construct the request payload that will be sent to KServe. This payload is based on the input image.
+
+### 3. Invoke KServe
+
+In this state, a request is sent to KServe using the payload created in the previous state. Once KServe responds, the execution proceeds to the next state.
+
+### 4. Handle KServe Response
+
+The final state manages the response received from KServe, which contains segmentation data. A Python function is responsible for processing this response data and generating the output image with segmentation information.
+ 
+
 ## Sending a request
 
 To perform image segmentation in `coco_image.jpg`, run the following request:
