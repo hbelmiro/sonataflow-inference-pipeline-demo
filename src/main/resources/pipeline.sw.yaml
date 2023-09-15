@@ -1,4 +1,4 @@
-id: inference
+id: pipeline
 version: '1.0'
 specVersion: '0.8'
 name: Inference Pipeline
@@ -8,7 +8,7 @@ functions:
   - name: python
     type: custom
     operation: script:python
-  - name: infer
+  - name: invoke_kserve
     operation: model_openapi.yaml#infer
 states:
   - name: Imports
@@ -27,12 +27,12 @@ states:
     type: operation
     actions:
       - subFlowRef: pre_processing
-    transition: Infer
-  - name: Infer
+    transition: Invoke KServe
+  - name: Invoke KServe
     type: operation
     actions:
       - functionRef:
-          refName: infer
+          refName: invoke_kserve
           arguments:
             inputs: .kserve_payload.inputs
     stateDataFilter:
