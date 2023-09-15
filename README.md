@@ -12,19 +12,6 @@ The below image illustartes the usecase:
 
 ![](docs/Architecture.png)
 
-## Interaction with ODH
-It's important to note that SonataFlow and Open Data Hub(ODH) need not be deployed in the same location. As long as your workflow can access the ODH endpoint, you can leverage ODH's capabilities in conjunction with SonataFlow.
-
-If you want to learn more about SonataFlow, please visit its website: https://sonataflow.org/ .
-## Running the application in dev mode
-
-You can run your application in dev mode that enables live coding using:
-```shell script
-./mvnw compile quarkus:dev
-```
-
-> **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at http://localhost:8080/q/dev/.
-
 ## Pipeline Overview
 
 The pipeline is defined as a [Serverless Workflow](https://serverlessworkflow.io/) specified in the `pipeline.sw.yaml` file located in `src/main/resources`.
@@ -46,7 +33,20 @@ In this state, a request is sent to KServe using the payload created in the prev
 ### 4. Handle KServe Response
 
 The final state manages the response received from KServe, which contains segmentation data. A Python function is responsible for processing this response data and generating the output image with segmentation information.
- 
+
+## Interaction with ODH
+It's important to note that SonataFlow and Open Data Hub(ODH) need not be deployed in the same location. As long as your workflow can access the ODH endpoint, you can leverage ODH's capabilities in conjunction with SonataFlow.
+
+If you want to learn more about SonataFlow, please visit its website: https://sonataflow.org/ .
+## Running the application in dev mode
+
+You can run your application in dev mode that enables live coding using:
+```shell script
+./mvnw compile quarkus:dev
+```
+
+> **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at http://localhost:8080/q/dev/.
+
 
 ## Sending a request
 
