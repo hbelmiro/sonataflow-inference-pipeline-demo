@@ -207,7 +207,7 @@ def letterbox(im, new_shape=(640, 640), color=(114, 114, 114), auto=True, scale_
 
 def get_as_numpy(im):
     arr = letterbox(np.array(im), (640, 640), auto=False, stride=32)[0]
-    arr = np.expand_dims(arr.transpose((2, 0, 1))[::-1], axis=0) / 255
+    arr = np.expand_dims(arr.transpose((2, 0, 1)), axis=0) / 255
     return arr
 
 
