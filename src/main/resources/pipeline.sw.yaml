@@ -32,7 +32,7 @@ states:
             script: "kserve_payload = to_kserve(image)"
             image: ".image"
     stateDataFilter:
-      output: "{kserve_payload:$WORKFLOW.python.kserve_payload}"
+      output: "{kserve_payload:$WORKFLOW.python.kserve_payload, image: .image}"
     transition: Invoke KServe
   - name: Invoke KServe
     type: operation
@@ -53,7 +53,7 @@ states:
             script: "output_image = handle_response(image, kserve_response, output_image)"
             image: ".image"
             kserve_response: ".kserve_response"
-            output_image: ".output_image.jpg"
+            output_image: "./output_image.jpg"
     stateDataFilter:
-      output: '{output_image: .output_image}'
+      output: '{output_image: $WORKFLOW.python.output_image}'
     end: true
