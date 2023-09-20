@@ -9,7 +9,7 @@ functions:
     type: custom
     operation: script:python
   - name: invoke_kserve
-    operation: model_openapi.yaml#infer
+    operation: specs/model_openapi.yaml#infer
 states:
   - name: Imports
     type: operation
