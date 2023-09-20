@@ -25,13 +25,13 @@ class InferenceWorkflowTest {
         given().config(configRequest())
                 .contentType(ContentType.JSON)
                 .accept(ContentType.JSON)
-                .body("{\"image\" : \"coco_image.jpg\"}").when()
+                .body("{\"image\" : \"src/main/resources/images/coco_image.jpg\"}").when()
                 .when().post("/pipeline")
                 .then()
                 .statusCode(201)
-                .body("workflowdata.output_image", is("./output_image.jpg"));
+                .body("workflowdata.output_image", is("src/main/resources/images/output_image.jpg"));
 
-        Path overlaidImage = Paths.get("output_image.jpg");
+        Path overlaidImage = Paths.get("src/main/resources/images/output_image.jpg");
         assertThat(overlaidImage).exists();
         Files.delete(overlaidImage);
     }

@@ -50,23 +50,23 @@ You can run your application in dev mode that enables live coding using:
 
 ## Sending a request
 
-To perform image segmentation in `coco_image.jpg`, run the following request:
+To perform image segmentation in `src/main/resources/images/coco_image.jpg`, run the following request:
 
 ```shell
 curl -X 'POST' \
   'http://localhost:8080/pipeline' \
   -H 'accept: */*' \
   -H 'Content-Type: application/json' \
-  -d '{ "image": "coco_image.jpg" }'
+  -d '{ "image": "src/main/resources/images/coco_image.jpg" }'
 ```
 
 You should see an output similar to:
 
 ```shell
-{"id":"591f8305-908b-43d0-85c7-73be87f8f0ca","workflowdata":{"output_image":"./output_image.jpg"}}
+{"id":"591f8305-908b-43d0-85c7-73be87f8f0ca","workflowdata":{"output_image":"src/main/resources/images/output_image.jpg"}}
 ```
 
-`./output_image.jpg` is the result image of the segmentation process.
+`src/main/resources/images/output_image.jpg` is the result image of the segmentation process.
 
 ## Packaging and running the application
 
