@@ -53,7 +53,7 @@ states:
             script: "output_image = handle_response(image, kserve_response, output_image)"
             image: ".image"
             kserve_response: ".kserve_response"
-            output_image: "./output_image.jpg"
+            output_image: "src/main/resources/images/output_image.jpg"
     stateDataFilter:
       output: '{output_image: $WORKFLOW.python.output_image}'
     end: true
