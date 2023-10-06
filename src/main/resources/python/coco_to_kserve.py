@@ -1,3 +1,6 @@
+import base64
+import io
+
 import numpy as np
 from PIL import Image
 
@@ -16,9 +19,11 @@ def expand2square(pil_img, background_color):
         return result
 
 
-def to_kserve(image_path):
+def to_kserve(image_base64):
+    image_bytes = base64.b64decode(image_base64)
+
     # Load image
-    im = Image.open(image_path)
+    im = Image.open(io.BytesIO(image_bytes))
 
     # Pad to 640x640 square
     im = expand2square(im, (114, 114, 114))
