@@ -236,11 +236,14 @@ def handle_response(original_image_base64, kserve_response):
     # generate masks
     results = seg_predictor.postprocess([pred, proto], torch_im, torch_im)
 
-    # Convert the image to a bytes-like object
+    result_image = results[0].plot()
+
+    # Crop the second image to match the size of the first image by removing content from the top and bottom
+    height_diff = result_image.shape[0] - im.height
+    if height_diff > 0:
+        result_image = result_image[height_diff//2:height_diff//2+im.height, :]
+
     img_bytes = io.BytesIO()
-    plt.imsave(img_bytes, results[0].plot(), format="PNG")
+    plt.imsave(img_bytes, result_image, format="PNG")
 
-    # Encode the bytes-like object in base64
-    base64_image = base64.b64encode(img_bytes.getvalue()).decode('utf-8')
-
-    return base64_image
+    return base64.b64encode(img_bytes.getvalue()).decode('utf-8')
