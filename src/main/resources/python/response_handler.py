@@ -1,4 +1,6 @@
+import base64
 import collections
+import io
 
 import cv2
 import matplotlib.pyplot as plt
@@ -211,8 +213,10 @@ def get_as_numpy(im):
     return arr
 
 
-def handle_response(original_img_path, kserve_response, img_destination):
-    im = Image.open(original_img_path)
+def handle_response(original_image_base64, kserve_response):
+    image_bytes = base64.b64decode(original_image_base64)
+
+    im = Image.open(io.BytesIO(image_bytes))
 
     torch_im = torch.tensor(get_as_numpy(im))
 
@@ -232,6 +236,11 @@ def handle_response(original_img_path, kserve_response, img_destination):
     # generate masks
     results = seg_predictor.postprocess([pred, proto], torch_im, torch_im)
 
-    plt.imsave(img_destination, results[0].plot())
+    # Convert the image to a bytes-like object
+    img_bytes = io.BytesIO()
+    plt.imsave(img_bytes, results[0].plot(), format="PNG")
 
-    return img_destination
+    # Encode the bytes-like object in base64
+    base64_image = base64.b64encode(img_bytes.getvalue()).decode('utf-8')
+
+    return base64_image

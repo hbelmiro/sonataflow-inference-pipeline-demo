@@ -6,13 +6,12 @@ import io.restassured.config.RestAssuredConfig;
 import io.restassured.http.ContentType;
 import org.junit.jupiter.api.Test;
 
+import javax.xml.bind.DatatypeConverter;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.io.InputStream;
+import java.util.Objects;
 
 import static io.restassured.RestAssured.given;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.is;
 
 @QuarkusTest
@@ -22,18 +21,25 @@ class InferenceWorkflowTest {
 
     @Test
     void test() throws IOException {
+        String imageBase64;
+
+        try (InputStream imageBase64Stream = getClass().getResourceAsStream("/coco_image.jpg")) {
+            imageBase64 = DatatypeConverter.printBase64Binary(Objects.requireNonNull(imageBase64Stream).readAllBytes());
+        }
+
+        String outputImageBase64;
+        try (InputStream outputImageBase64Stream = getClass().getResourceAsStream("/output.png")) {
+            outputImageBase64 = DatatypeConverter.printBase64Binary(Objects.requireNonNull(outputImageBase64Stream).readAllBytes());
+        }
+
         given().config(configRequest())
                 .contentType(ContentType.JSON)
                 .accept(ContentType.JSON)
-                .body("{\"image\" : \"src/main/resources/images/coco_image.jpg\"}").when()
+                .body("{\"base64Image\" : \"" + imageBase64 + "\"}").when()
                 .when().post("/pipeline")
                 .then()
                 .statusCode(201)
-                .body("workflowdata.output_image", is("src/main/resources/images/output_image.jpg"));
-
-        Path overlaidImage = Paths.get("src/main/resources/images/output_image.jpg");
-        assertThat(overlaidImage).exists();
-        Files.delete(overlaidImage);
+                .body("workflowdata.output_image", is(outputImageBase64));
     }
 
     private static RestAssuredConfig configRequest() {

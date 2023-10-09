@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Image Processing Web App</title>
+    <style>
+        /* CSS animation for the loading indicator */
+        @keyframes fade {
+            0% { opacity: 0.2; }
+            50% { opacity: 1; }
+            100% { opacity: 0.2; }
+        }
+
+        /* Styling for the loading indicator */
+        #loadingIndicator {
+            display: none;
+            animation: fade 1.5s infinite;
+            text-align: center;
+            font-weight: bold;
+            margin-top: 10px;
+            color: white; /* Text color */
+            background-color: red; /* Background color */
+            padding: 5px; /* Padding for better visibility */
+        }
+    </style>
+</head>
+<body>
+<h1>Image Processing Web App</h1>
+
+<!-- Input field to upload an image -->
+<input type="file" id="imageInput" accept="image/*">
+
+<!-- Display the original image -->
+<h2>Original Image</h2>
+<img id="originalImage" src="" alt="Original Image">
+
+<!-- Display the processed image -->
+<h2>Processed Image</h2>
+<img id="processedImage" src="" alt="Processed Image">
+
+<!-- Loading indicator -->
+<div id="loadingIndicator">
+    Processing... Please wait.
+</div>
+
+<button id="processButton">Process Image</button>
+
+<script>
+    // Function to convert an image to base64
+    function imageToBase64(imageFile, callback) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            const base64Image = e.target.result.split(',')[1];
+            callback(base64Image);
+        };
+        reader.readAsDataURL(imageFile);
+    }
+
+    // Function to send a POST request with the base64 image data
+    function sendImageToServer(base64Image) {
+        const apiUrl = 'http://localhost:8080/pipeline';
+
+        // Create a JSON object with the base64 image data
+        const requestBody = {
+            base64Image: base64Image
+        };
+
+        // Display the loading indicator
+        const loadingIndicator = document.getElementById('loadingIndicator');
+        loadingIndicator.style.display = 'block';
+
+        // Send the POST request
+        fetch(apiUrl, {
+            method: 'POST',
+            headers: {
+                'Accept': '*/*',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(requestBody)
+        })
+            .then(response => response.json())
+            .then(data => {
+                // Hide the loading indicator
+                loadingIndicator.style.display = 'none';
+
+                // Display the processed image on the web page
+                const processedImage = document.getElementById('processedImage');
+                processedImage.src = 'data:image/jpeg;base64,' + data.workflowdata.output_image;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                // Hide the loading indicator on error
+                loadingIndicator.style.display = 'none';
+            });
+    }
+
+    // Event listener for the "Process Image" button
+    const processButton = document.getElementById('processButton');
+    processButton.addEventListener('click', () => {
+        const imageInput = document.getElementById('imageInput');
+        const originalImage = document.getElementById('originalImage');
+
+        const file = imageInput.files[0];
+
+        if (file) {
+            // Display the original image on the web page
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                originalImage.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+
+            // Convert the image to base64 and send it to the server
+            imageToBase64(file, sendImageToServer);
+        } else {
+            alert('Please select an image to process.');
+        }
+    });
+</script>
+</body>
+</html>

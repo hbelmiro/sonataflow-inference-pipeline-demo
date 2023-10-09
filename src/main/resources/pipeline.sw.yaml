@@ -29,10 +29,10 @@ states:
       - functionRef:
           refName: python
           arguments:
-            script: "kserve_payload = to_kserve(image)"
-            image: ".image"
+            script: "kserve_payload = to_kserve(base64Image)"
+            base64Image: ".base64Image"
     stateDataFilter:
-      output: "{kserve_payload:$WORKFLOW.python.kserve_payload, image: .image}"
+      output: "{kserve_payload:$WORKFLOW.python.kserve_payload, base64Image: .base64Image}"
     transition: Invoke KServe
   - name: Invoke KServe
     type: operation
@@ -42,7 +42,7 @@ states:
           arguments:
             inputs: .kserve_payload.inputs
     stateDataFilter:
-      output: '{kserve_response: .outputs, image: .image}'
+      output: '{kserve_response: .outputs, base64Image: .base64Image}'
     transition: Inference post-processing
   - name: Inference post-processing
     type: operation
@@ -50,10 +50,9 @@ states:
       - functionRef:
           refName: python
           arguments:
-            script: "output_image = handle_response(image, kserve_response, output_image)"
-            image: ".image"
+            script: "output_image = handle_response(base64Image, kserve_response)"
+            image: ".base64Image"
             kserve_response: ".kserve_response"
-            output_image: "src/main/resources/images/output_image.jpg"
     stateDataFilter:
       output: '{output_image: $WORKFLOW.python.output_image}'
     end: true
