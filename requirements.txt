@@ -1,5 +1,5 @@
+jep
 Pillow
-numpy
 opencv-python
 matplotlib
 torch
