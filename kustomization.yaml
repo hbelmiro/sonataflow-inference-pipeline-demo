@@ -17,9 +17,6 @@ configMapGenerator:
       - python/coco_class_names.py
       - python/coco_to_kserve.py
       - python/response_handler.py
-  - name: "pipeline-images"
-    files:
-      - images/coco_image.jpg
   - name: "pipeline-frontend"
     files:
       - index.html

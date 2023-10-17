@@ -16,9 +16,6 @@ spec:
           name: pipeline-python
         workflowPath: python
       - configMap:
-          name: pipeline-images
-        workflowPath: images
-      - configMap:
           name: pipeline-frontend
         workflowPath: META-INF/resources
   flow:
