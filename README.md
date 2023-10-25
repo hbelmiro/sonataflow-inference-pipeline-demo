@@ -10,7 +10,7 @@ Once the inference is complete, the results are returned to the calling process.
 
 The below image illustrates the use-case:
 
-![](docs/Architecture.png)
+![](docs/workflow_architecture.png)
 
 ## Pipeline Overview
 
