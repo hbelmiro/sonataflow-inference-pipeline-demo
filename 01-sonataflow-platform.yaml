@@ -4,4 +4,4 @@ metadata:
   name: sonataflow-platform
 spec:
   devMode:
-    baseImage: "quay.io/ricardozanini/sonataflow-python-devmode:1.0.0-142325"
+    baseImage: "quay.io/hbelmiro/sonataflow-inference-pipeline-demo:dev-main-1700239050"
