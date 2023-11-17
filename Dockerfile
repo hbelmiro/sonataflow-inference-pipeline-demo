@@ -17,5 +17,6 @@ RUN pip install numpy --target /home/kogito/.local/bin
 RUN pip install -r requirements.txt --target /home/kogito/.local/bin
 
 ENV QUARKUS_EXTENSIONS="org.kie.kogito:kogito-addons-quarkus-serverless-workflow-python:${KOGITO_VERSION}"
+ENV LD_LIBRARY_PATH="/home/kogito/.local/bin/jep:$LD_LIBRARY_PATH"
 
 CMD ["/home/kogito/launch/run-app-devmode.sh"]
