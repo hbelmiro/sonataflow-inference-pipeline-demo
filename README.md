@@ -62,7 +62,7 @@ kubectl config set-context --current --namespace=$NAMESPACE
 ### Check the deployment status
 
 ```shell
-kubectl get workflow pipeline
+kubectl get sonataflow pipeline
 ```
 
 You should see an output like the following when the workflow is ready:
